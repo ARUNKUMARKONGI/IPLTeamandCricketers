@@ -1,5 +1,7 @@
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
 
 class Cricketer {
     private String name;
@@ -20,20 +22,21 @@ class Cricketer {
         return role;
     }
 }
+
 class IPLTeam {
     private String teamName;
-    private List<Cricketer> squad;
+    private List<Players> squad;
 
     public IPLTeam(String teamName) {
         this.teamName = teamName;
         squad = new ArrayList<>();
     }
 
-    public void addCricketer(Cricketer cricketer) {
-        squad.add(cricketer);
+    public void addCricketer(Players players) {
+        squad.add(players);
     }
 
-    public List<Cricketer> getSquad() {
+    public List<Players> getSquad() {
         return squad;
     }
 
@@ -44,57 +47,57 @@ class IPLTeam {
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
-        List<Cricketer> cricketers = new ArrayList<>();
-        List<IPLTeam> iplTeams = new ArrayList<>();
+        List<Players> players = new ArrayList<>();
+        HashMap<String, IPLTeam> iplTeams = new HashMap<>();
 
-        IPLTeam rcb = new IPLTeam("Royal Challengers Bangalore");
-        IPLTeam srh = new IPLTeam("Sunrisers Hyderabad");
-        IPLTeam mi = new IPLTeam("Mumbai Indians");
+        iplTeams.put("RCB", new IPLTeam("Royal Challengers Bangalore"));
+        iplTeams.put("SRH", new IPLTeam("Sunrisers Hyderabad"));
+        iplTeams.put("MI", new IPLTeam("Mumbai Indians"));
 
-        iplTeams.add(mi);
-        iplTeams.add(srh);
-        iplTeams.add(rcb);
 
         int choice;
 
-        while(true) {
+        while (true) {
             /*System.out.println("1. Add a cricketer");
             System.out.println("2. Assign a cricketer to an IPL team");
             System.out.println("3. Display IPL Team Squads");
             System.out.println("4. Display All list of Cricketers");
-            System.out.println("5.Exit");*/
-            choice = scanner.nextInt();
+            System.out.println("5. Display List of IPL Teams");
+            System.out.println("6. Exit");
+            System.out.print("Enter your choice: ");*/
+
+            choice = sc.nextInt();
 
             switch (choice) {
                 case 1:
-                    scanner.nextLine();
-                    //System.out.println("Enter cricketer name:");
-                    String cricketerName = scanner.nextLine();
-                    // System.out.println("Enter cricketer age:");
-                    int cricketerAge = scanner.nextInt();
-                    scanner.nextLine();
-                    //System.out.println("Enter cricketer role:");
-                    String cricketerRole = scanner.nextLine();
+                    sc.nextLine();
+                    System.out.print("Enter cricketer name: ");
+                    String cricketerName = sc.nextLine();
+                    //System.out.print("Enter cricketer age: ");
+                    int cricketerAge = sc.nextInt();
+                    sc.nextLine();
+                    //System.out.print("Enter cricketer role: ");
+                    String cricketerRole = sc.nextLine();
 
-                    Cricketer cr = new Cricketer(cricketerName, cricketerAge, cricketerRole);
-                    cricketers.add(cr);
+                    Players cr = new Players(cricketerName, cricketerAge, cricketerRole);
+                    players.add(cr);
                     System.out.println("Cricketer added.");
                     break;
 
                 case 2:
-                    scanner.nextLine();
-                    if (cricketers.isEmpty() || iplTeams.isEmpty()) {
+                    sc.nextLine();
+                    if (players.isEmpty() || iplTeams.isEmpty()) {
                         System.out.println("Please add cricketers and IPL teams first.");
                         break;
                     }
 
-                    //System.out.println("Enter the name of the cricketer you want to assign to team:");
-                    String str1 = scanner.nextLine();
-                    Cricketer assignCr = null;
-                    for (Cricketer i : cricketers) {
-                        if (i.getName().equalsIgnoreCase(str1)) {
+                    //System.out.print("Enter the name of the cricketer you want to assign to a team: ");
+                    String nameStr = sc.nextLine();
+                    Players assignCr = null;
+                    for (Players i : players) {
+                        if (i.getName().equalsIgnoreCase(nameStr)) {
                             assignCr = i;
                             break;
                         }
@@ -103,54 +106,53 @@ public class Main {
                         System.out.println("Cricketer not found.");
                         break;
                     }
-                    String str2 = scanner.nextLine();
-                    boolean assigned = false;
-                    for (IPLTeam i : iplTeams) {
-                        if (i.getTeamName().equalsIgnoreCase(str2)) {
-                            i.addCricketer(assignCr);
-                            System.out.println("Cricketer assigned to " + i.getTeamName());
-                            assigned = true;
-                            break;
-                        }
-                    }
-                    if (!assigned) {
+
+                   // System.out.print("Enter the name of the IPL team to assign the cricketer: ");
+                    String teamStr = sc.nextLine();
+                    IPLTeam getTeam = iplTeams.get(teamStr);
+                    if (getTeam!= null) {
+                        getTeam.addCricketer(assignCr);
+                        System.out.println("Cricketer assigned to " + getTeam.getTeamName());
+                    } else {
                         System.out.println("Invalid IPL team.");
                     }
                     break;
 
                 case 3:
                     System.out.println("IPL Team Squads:");
-                    for (IPLTeam i : iplTeams) {
+                    for (IPLTeam i : iplTeams.values()) {
                         System.out.println(i.getTeamName() + " Squad:");
-                        List<Cricketer> squad = i.getSquad();
+                        List<Players> squad = i.getSquad();
                         if (squad.isEmpty()) {
                             System.out.println("No cricketers in this squad.");
                         } else {
-                            for (Cricketer c : squad) {
+                            for (Players c : squad) {
                                 System.out.println("Name: " + c.getName() + ", Role: " + c.getRole());
                             }
                         }
                     }
                     break;
 
-                case 4: if (cricketers.isEmpty()) {
-                    System.out.println("No cricketers available.");
-                    break;
-                }
+                case 4:
+                    if (players.isEmpty()) {
+                        System.out.println("No cricketers available.");
+                        break;
+                    }
                     System.out.println("List of Cricketers:");
-                    for (Cricketer cricketer : cricketers) {
-                        System.out.println("Name: " + cricketer.getName() + ", Role: " + cricketer.getRole());
+                    for (Players i : players) {
+                        System.out.println("Name: " + i.getName() + ", Role: " + i.getRole());
                     }
                     break;
 
                 case 5:
                     System.out.println("List of IPL Teams:");
-                    for (IPLTeam iplTeam : iplTeams) {
-                        System.out.println(iplTeam.getTeamName());
+                    for (String i : iplTeams.keySet()) {
+                        System.out.println(i);
                     }
                     break;
 
-                case 6:scanner.close();
+                case 6:
+                    sc.close();
                     System.exit(0);
                     break;
 
