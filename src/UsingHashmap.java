@@ -38,25 +38,25 @@ class UsingHashmap {
         int choice;
 
         while (true) {
-            System.out.println("1. Add a cricketer");
+            /*System.out.println("1. Add a cricketer");
             System.out.println("2. Assign a cricketer to a team");
             System.out.println("3. Display Team Squads");
             System.out.println("4. Display All list of Cricketers");
             System.out.println("5. Display List of Teams");
             System.out.println("6. Exit");
-            System.out.print("Enter your choice: ");
+            System.out.print("Enter your choice: ");*/
 
             choice = scanner.nextInt();
 
             switch (choice) {
                 case 1:
                     scanner.nextLine();
-                    System.out.print("Enter cricketer name: ");
+                    //System.out.print("Enter cricketer name: ");
                     String cricketerName = scanner.nextLine();
-                    System.out.print("Enter cricketer age: ");
+                   // System.out.print("Enter cricketer age: ");
                     int cricketerAge = scanner.nextInt();
                     scanner.nextLine();
-                    System.out.print("Enter cricketer role: ");
+                    //System.out.print("Enter cricketer role: ");
                     String cricketerRole = scanner.nextLine();
 
                     Players cr = new Players(cricketerName, cricketerAge, cricketerRole);
@@ -66,7 +66,7 @@ class UsingHashmap {
 
                 case 2:
                     scanner.nextLine();
-                    System.out.print("Enter the name of the cricketer you want to assign to a team: ");
+                    //System.out.print("Enter the name of the cricketer you want to assign to a team: ");
                     String cricketerToAssign = scanner.nextLine();
                     Players assignCr = null;
 
@@ -83,35 +83,28 @@ class UsingHashmap {
                             break;
                         }
                     }
-
                     if (alreadyAssigned) {
                         System.out.println("Cricketer is already assigned to a team. Cannot assign to another team.");
                         break;
                     }
-
                     for (Players i : players) {
                         if (i.getName().equalsIgnoreCase(cricketerToAssign)) {
                             assignCr = i;
                             break;
                         }
                     }
-
                     if (assignCr == null) {
                         System.out.println("Cricketer not found.");
                         break;
                     }
-
-                    System.out.print("Enter the name of the team to assign the cricketer: ");
+                    //System.out.print("Enter the name of the team to assign the cricketer: ");
                     String teamStr = scanner.nextLine();
 
-                    if (!iplTeams.containsKey(teamStr.toUpperCase())) {
-                        System.out.println("Invalid team name. Please enter a valid team name.");
+                    if (!iplTeams.containsKey(teamStr)) {
+                        System.out.println("Invalid IPL Team.");
                         break;
                     }
-
-                    // Add the cricketer to the team
-                    iplTeams.get(teamStr.toUpperCase()).add(assignCr);
-
+                    iplTeams.get(teamStr).add(assignCr);
                     System.out.println("Cricketer assigned to " + teamStr);
                     break;
 
