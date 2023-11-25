@@ -1,15 +1,12 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.TreeMap;
 
-class Players {
+class Cricketers {
     private String name;
     private int age;
     private String role;
 
-    public Players(String name, int age, String role) {
+    public Cricketers(String name, int age, String role) {
         this.name = name;
         this.age = age;
         this.role = role;
@@ -28,10 +25,12 @@ class UsingHashmap {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        List<Players> players = new ArrayList<>();
-        Map<String, List<Players>> iplTeams = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        List<Cricketers> players = new ArrayList<>();
+        Map<String, List<Cricketers>> iplTeams = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
-        iplTeams.put("Sunrisers Hyderabad", new ArrayList<>());
+        List<Cricketers> srh = new ArrayList<>();
+
+        iplTeams.put("Sunrisers Hyderabad", srh);
         iplTeams.put("Royal Challengers Bangalore", new ArrayList<>());
         iplTeams.put("Mumbai Indians", new ArrayList<>());
 
@@ -45,9 +44,7 @@ class UsingHashmap {
             System.out.println("5. Display List of Teams");
             System.out.println("6. Exit");
             System.out.print("Enter your choice: ");*/
-
             choice = scanner.nextInt();
-
             switch (choice) {
                 case 1:
                     scanner.nextLine();
@@ -59,7 +56,7 @@ class UsingHashmap {
                     //System.out.print("Enter cricketer role: ");
                     String cricketerRole = scanner.nextLine();
 
-                    Players cr = new Players(cricketerName, cricketerAge, cricketerRole);
+                    Cricketers cr = new Cricketers(cricketerName, cricketerAge, cricketerRole);
                     players.add(cr);
                     System.out.println("Cricketer added.");
                     break;
@@ -68,12 +65,11 @@ class UsingHashmap {
                     scanner.nextLine();
                     //System.out.print("Enter the name of the cricketer you want to assign to a team: ");
                     String cricketerToAssign = scanner.nextLine();
-                    Players assignCr = null;
+                    Cricketers assignCr = null;
 
-                    // Check if the cricketer is already assigned to a team
                     boolean alreadyAssigned = false;
-                    for (List<Players> squad : iplTeams.values()) {
-                        for (Players c : squad) {
+                    for (List<Cricketers> squad : iplTeams.values()) {
+                        for (Cricketers c : squad) {
                             if (c.getName().equalsIgnoreCase(cricketerToAssign)) {
                                 alreadyAssigned = true;
                                 break;
@@ -87,7 +83,7 @@ class UsingHashmap {
                         System.out.println("Cricketer is already assigned to a team. Cannot assign to another team.");
                         break;
                     }
-                    for (Players i : players) {
+                    for (Cricketers i : players) {
                         if (i.getName().equalsIgnoreCase(cricketerToAssign)) {
                             assignCr = i;
                             break;
@@ -100,25 +96,26 @@ class UsingHashmap {
                     //System.out.print("Enter the name of the team to assign the cricketer: ");
                     String teamStr = scanner.nextLine();
 
-                    if (!iplTeams.containsKey(teamStr)) {
+                    if (iplTeams.containsKey(teamStr)==false) {
                         System.out.println("Invalid IPL Team.");
                         break;
                     }
                     iplTeams.get(teamStr).add(assignCr);
-                    System.out.println("Cricketer assigned to " + teamStr);
+                    System.out.println("Cricketer assigned to " + teamStr.toUpperCase());
                     break;
 
                 case 3:
                     System.out.println("Team Squads:");
-                    for (Map.Entry<String, List<Players>> entry : iplTeams.entrySet()) {
-                        System.out.println(entry.getKey() + " Squad:");
-                        List<Players> squad = entry.getValue();
+                    for (Map.Entry<String, List<Cricketers>> index : iplTeams.entrySet()) {
+                        System.out.println(index.getKey() + " Squad:");
+                        List<Cricketers> squad = index.getValue();
                         if (squad.isEmpty()) {
                             System.out.println("No cricketers in this squad.");
                         } else {
-                            for (Players c : squad) {
+                            for (Cricketers c : squad) {
                                 System.out.println("Name: " + c.getName() + ", Role: " + c.getRole());
                             }
+
                         }
                     }
                     break;
@@ -129,7 +126,7 @@ class UsingHashmap {
                         break;
                     }
                     System.out.println("List of Cricketers:");
-                    for (Players i : players) {
+                    for (Cricketers i : players) {
                         System.out.println("Name: " + i.getName() + ", Role: " + i.getRole());
                     }
                     break;
